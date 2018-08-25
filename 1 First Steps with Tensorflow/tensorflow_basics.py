@@ -134,6 +134,7 @@ calibration_data.describe()
 # Plotting the Sample Data
 sample = california_housing_dataframe.sample(n=300)
 
+# Plotting the Data
 
 
 
