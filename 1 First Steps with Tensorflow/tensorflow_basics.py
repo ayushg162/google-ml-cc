@@ -136,5 +136,82 @@ sample = california_housing_dataframe.sample(n=300)
 
 # Plotting the Data
 
+# Get the min and max total_rooms values
+x_0 = sample["total_rooms"].min()
+x_1 = sample["total_rooms"].max()
+
+# Retrieve the final weight and bias generated during training
+weight = linear_regressor.get_variable_value('linear/linear_model/total_rooms/weights')[0]
+bias = linear_regressor.get_variable_value('linear/linear_model/bias_weights')
+
+# Get the predicted median_house_values
+y_0 = weight * x_0 + bias
+y_1 = weight * x_1 + bias
+
+# Plot out regression line from (x_0, y_0) to (x_1, y_1)
+plt.plot([x_0, x_1], [y_0, y_1], c='r')
+
+# Label the graph axes
+plt.ylabel("median_house_value")
+plt.xlabel("total_rooms")
+
+# Plot a scatter plot from our data sample
+plt.scatter(sample["total_rooms"], sample["median_house_value"])
+
+# Display Plot
+plt.show()
 
 
+# Tweaking the Model Hyperparameters
+def train_model(learning_rate, steps, batch_size, input_feature="total_rooms"):
+    """
+    Trains a linear regression model of one feature.
+    Args:
+        learning_rate: A 'float', the learning rate
+        steps: A non-zero 'int', the total number of training steps.
+        batch_size: A non-zero 'int', the batch size
+        input_feature: A 'string' specifying a column from 'california_dataset',
+        to use as input feature
+    """
+    periods = 10
+    steps_per_period = steps / periods
+    
+    my_feature = input_feature
+    my_feature_data = california_housing_dataframe[[my_feature]]
+    my_label = "median_house_value"
+    targets = california_housing_dataframe[my_label]
+    
+    # Create feature columns.
+    feature_columns = [tf.feature_column.numeric_column(my_feature)]
+    
+    # Create input functions
+    training_input_fn = lambda: my_input_fn(my_feature_data, targets, batch_size)
+    prediction_input_fn = lambda: my_input_fn(my_feature_data, targets, num_epochs=1, shuffle=False)
+    
+    # Create a linear regressor object.
+    my_optimizer = tf.train.GradientDescentOptimizer(learning_rate=learning_rate)
+    my_optimizer = tf.contrib.estimator.clip_gradients_by_norm(my_optimizer, 5.0)
+    
+    linear_regressor = tf.estimator.LinearRegressor(
+            feature_columns=feature_columns,
+            optimizer=my_optimizer
+    )
+    
+    # Set up the plotting 
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
