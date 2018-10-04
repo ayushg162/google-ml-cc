@@ -205,7 +205,7 @@ def train_model(learning_rate, steps, batch_size, input_feature="total_rooms"):
     plt.xlabel(my_feature)
     sample = california_housing_dataframe.sample(n=300)
     plt.scatter(sample[my_feature], sample[my_label])
-    colors = [cm.coolwarm(x) for x in np.linespaces(-1, 1, periods)]
+    colors = [cm.coolwarm(x) for x in np.linspace(-1, 1, periods)]
     
     # Train the model, but do so inside a loop so that we can period
     # loss metrics
